@@ -33,6 +33,7 @@ impl Shares {
         for i in &self.0 {
             let mut temparray: Zeroizing<[u8; 65]> = Zeroizing::new([0u8; 65]);
             temparray.as_mut()[1..65].copy_from_slice(i.1.to_be_bytes().as_slice());
+            temparray[0] = i.0;
             vec.push(*temparray);
         }
         vec
