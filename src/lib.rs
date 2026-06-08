@@ -1,15 +1,16 @@
 #[warn(clippy::pedantic)]
+#[allow(clippy::missing_errors_doc)]
 mod shamir;
 use chacha20poly1305::{Key, KeyInit, XChaCha20Poly1305, XNonce, aead::AeadMut};
 use rand::random;
 pub use shamir::ShamirError;
 pub use shamir::Shares;
-use shamir::shamir_split;
+pub use shamir::shamir_split;
 use std::num::NonZero;
 pub use zeroize::Zeroizing;
 use zeroize::{Zeroize, ZeroizeOnDrop};
 
-use shamir::reconstruct_secret_mod;
+pub use shamir::reconstruct_secret_mod;
 
 #[derive(Zeroize, ZeroizeOnDrop)]
 pub struct ShardEncrypted {
@@ -72,4 +73,3 @@ pub fn decrypt_bytes(
         .decrypt(XNonce::from_slice(nonce), bytes)
         .map_err(|_| Error::DecryptionError)
 }
-

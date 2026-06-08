@@ -31,9 +31,9 @@ fn mod_inverse(prime: &U512, a: &U512) -> Result<Zeroizing<U512>, ShamirError> {
 pub fn reconstruct_secret_mod(
     shares: &Shares,
     req: NonZero<u8>,
-) -> Result<Zeroizing<[u8; 32]>, ShamirError> {
+) -> Result<Zeroizing<[u8; 32]>, crate::Error> {
     if shares.as_vec().len() < req.get() as usize {
-        return Err(ShamirError::TooFewShares(req.get()));
+        Err(ShamirError::TooFewShares(req.get()))?;
     }
 
     let shares = &shares.as_vec()[..req.get() as usize];
@@ -42,7 +42,7 @@ pub fn reconstruct_secret_mod(
     for i in 0..n {
         for j in (i + 1)..n {
             if shares[i][0] == shares[j][0] {
-                return Err(ShamirError::DuplicateShares);
+                Err(ShamirError::DuplicateShares)?;
             }
         }
     }

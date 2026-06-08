@@ -10,7 +10,7 @@ pub fn shamir_split(
     threshold: std::num::NonZero<u8>,
     shares: std::num::NonZero<u8>,
     secret: &Zeroizing<[u8; 32]>,
-) -> Result<Shares, ShamirError> {
+) -> Result<Shares, crate::Error> {
     let mut secret_temp = Zeroizing::new([0u8; 64]);
     secret_temp.as_mut()[32..].copy_from_slice(secret.as_ref());
     let secret = Zeroizing::new(U512::from_be_slice(secret_temp.as_ref()));
