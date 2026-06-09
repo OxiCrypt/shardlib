@@ -4,6 +4,7 @@ mod recover_file;
 use crypto_bigint::{NonZero, U512};
 pub use make_shares::shamir_split;
 pub use recover_file::reconstruct_secret_mod;
+use std::num;
 use zeroize::{Zeroize, Zeroizing};
 #[derive(Debug)]
 pub enum ShamirError {
@@ -47,6 +48,13 @@ impl Shares {
                 .push((rawshare[0], U512::from_be_slice(&rawshare[1..65])));
         }
         return_val
+    }
+    pub fn from_key_slice(
+        threshold: num::NonZero<u8>,
+        shares_out: num::NonZero<u8>,
+        key: &Zeroizing<[u8; 32]>,
+    ) -> Result<Shares, crate::Error> {
+        shamir_split(threshold, shares_out, key)
     }
 }
 // Helper Functions
