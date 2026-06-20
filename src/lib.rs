@@ -1,5 +1,5 @@
-#[warn(clippy::pedantic)]
-#[allow(clippy::missing_errors_doc)]
+#![warn(clippy::pedantic)]
+#![allow(clippy::missing_errors_doc)]
 mod shamir;
 use chacha20poly1305::{Key, KeyInit, XChaCha20Poly1305, XNonce, aead::AeadMut};
 use rand::random;
@@ -19,17 +19,20 @@ pub struct ShardEncrypted {
     nonce: [u8; 24],
 }
 impl ShardEncrypted {
+    #[must_use]
     pub fn data_as_slice(&self) -> &[u8] {
         self.bytes.as_slice()
     }
+    #[must_use]
     pub fn shares(&self) -> &Shares {
         &self.shares
     }
+    #[must_use]
     pub fn nonce_as_slice(&self) -> &[u8] {
         self.nonce.as_slice()
     }
 }
-/// Errors. ObviousContradiction is impossible, and EncryptionError is opaque
+/// Errors. `ObviousContradiction` is impossible, and `De`/`EncryptionError` is opaque
 pub enum Error {
     Shamir(ShamirError),
     ObviousContradiction,
